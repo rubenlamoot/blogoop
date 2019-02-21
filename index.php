@@ -13,7 +13,8 @@ require_once ("admin/includes/init.php");
 <?php
 /** variabelen voor het vullen van de parameters constructor van de class Paginate */
 $page = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
-$items_per_page = 4;
+//$items_per_page = 4;
+$items_per_page = !empty($_GET['pageSelect']) ? (int)$_GET['pageSelect'] : 5;
 $items_total_count = Photo::count_all();
 
 // constructor aanroepen
@@ -34,6 +35,17 @@ $photos = Photo::find_this_query($sql);
 
 <div class="col-md-8">
     <h1 class="text-center my-5">MIJN BLOG PAGINA</h1>
+   <form>
+       <div class="form-group">
+           <label for="pageSelect">Show photos per page:</label>
+           <select class="form-control" id="pageSelect" name="pageSelect" style="width: 10%;">
+               <option value="5">5</option>
+               <option value="10">10</option>
+               <option value="15">15</option>
+               <option value="20">20</option>
+           </select>
+       </div>
+   </form>
     <div class="row">
         <?php
         foreach ($photos as $photo) :
