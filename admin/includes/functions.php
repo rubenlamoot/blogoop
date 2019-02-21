@@ -26,4 +26,12 @@ function redirect($location){
     header("Location:{$location}");
 }
 
+function isAdmin(){
+    global $session;
+    if($session->is_signed_in()){
+        return true;
+    }else{
+        return false;
+    }
+}
 ?>

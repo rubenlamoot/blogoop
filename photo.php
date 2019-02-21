@@ -10,80 +10,95 @@ require_once ("admin/includes/init.php");
 ?>
 
 <?php
-$comments = Comment::find_the_comments(1);
+
+if(empty($_GET['id'])){
+    redirect('index.php');
+}
+if(isAdmin()){
+    $active_user = User::find_by_id($session->user_id);
+}
+
+$comments = Comment::find_the_comments($_GET['id']);
 $users = User::find_all_users();
+$photo = Photo::find_by_id($_GET['id']);
 
 
 $new_comment = new Comment();
 if(isset($_POST['submit'])){
     if($new_comment){
-        $new_comment->photo_id = 1;
-        $new_comment->user_id = 1;
-        $new_comment->author = $_POST['author'];
-        $new_comment->body = $_POST['body'];
+        $new_comment->photo_id = $_GET['id'];
+        $new_comment->user_id = $active_user->id;
+        $new_comment->author = $active_user->first_name ." ". $active_user->last_name;
+        $new_comment->body = trim($_POST['body']);
         $new_comment->date_time = date("Y-m-d H:i:s");
 
         $new_comment->create();
 
         redirect("photo.php?id={$photo->id}");
-
+    }else{
+        $message = "There were some problems saving";
     }
 }else{
     $author = "";
     $body = "";
 }
-
-$photo = Photo::find_by_id($_GET['id']);
 ?>
+<div class="col-md-4">
+    <?php include("includes/sidebar.php"); ?>
+</div>
 
-<div class="col-lg-8">
-    <h1><?php $photo->picture_path(); ?></h1>
-
-    <p class="load">
-        by <a href="">start bootstrap</a>
-    </p>
-    <hr>
-    <p><span class="fas fa-clock"></span> Posted on August 24, 2013 at 9.00 PM</p>
-    <hr>
-    <img src="http://place-hold.it/900x300" alt="">
-
-    <hr>
+<div class="col-md-8">
+    <h1>Blog Post : <?php echo $photo->title; ?></h1>
 
     <p class="load">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad atque commodi dolore ex magnam praesentium quae quibusdam reprehenderit tenetur veniam! At consectetur corporis dignissimos exercitationem fuga illum, magnam sit voluptas.
+        by <a href="">Ruben Lamoot</a>
     </p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque, debitis repudiandae. Mollitia officia optio quas repellendus veritatis. Doloremque ducimus error explicabo, impedit iure minus nam, nemo, officiis quaerat rem suscipit?</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet autem consequuntur cupiditate earum et explicabo, in magni mollitia nam nisi possimus quasi quos suscipit tenetur vitae! Error, optio, quaerat. Facere.</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem cumque distinctio dolorem ex neque, nisi nulla perspiciatis porro, recusandae saepe sequi veniam! Aperiam cupiditate delectus eaque neque quas quidem sit!</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam ea fugiat iure, nam nobis ut. Autem, blanditiis debitis distinctio esse expedita minima nostrum officiis possimus repellendus sunt tempore ullam veniam!</p>
+    <hr>
+    <p><span class="fas fa-clock"></span> Posted on <?php echo $photo->created_at; ?></p>
+    <hr>
+    <img src="admin/<?php echo $photo->picture_path(); ?>" alt="">
+
     <hr>
 
-    <div class="well">
-        <h4>Leave comment:</h4>
-        <form role="form" method="post">
-            <div class="form-group">
-                <label for="author">Author</label>
-<!--                <input type="text" name="author" id="author" class="form-control">-->
-                <select name="author" id="author" class="form-control">
-                    <?php foreach ($users as $user) : ?>
-                    <option value="<?php echo $user->id; ?>"><?php echo $user->last_name . " " .$user->first_name; ?></option>
+    <p class="load">
+        <?php echo $photo->description; ?>
+    </p>
+    <hr>
 
-                    <?php
+    <?php
+        if(isAdmin()){
 
-                    endforeach;
+            ?>
+            <div class="well">
+                <h4>Leave comment:</h4>
+                <form role="form" method="post">
+                    <div class="form-group">
+                        <label for="author">Author:</label>
+                        <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
+<!--                        <select name="author" id="author" class="form-control">-->
+<!--                            --><?php //foreach ($users as $user) : ?>
+<!--                                <option value="--><?php //echo $user->id; ?><!--">--><?php //echo $user->last_name . " " .$user->first_name; ?><!--</option>-->
+<!---->
+<!--                            --><?php
+//
+//                            endforeach;
+//
+//                            ?>
+<!--                        </select>-->
 
-                    ?>
-                </select>
-
-            </div>
-            <div class="form-group">
+                    </div>
+                    <div class="form-group">
                 <textarea name="body" rows="3" class="form-control">
 
                 </textarea>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
-            <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+    <?php    }
+    ?>
+
+
     <hr>
     <?php foreach ($comments as $comment) : ?>
     <div class="media">
@@ -101,8 +116,6 @@ $photo = Photo::find_by_id($_GET['id']);
     </div>
     <?php endforeach; ?>
 </div>
-<div class="col-md-4">
-<?php include("includes/sidebar.php"); ?>
-</div>
+
 
 <?php include("includes/footer.php"); ?>
