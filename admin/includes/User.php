@@ -10,7 +10,7 @@ class User extends Dbobject
 {
     /** variabelen */
     protected static $db_table = "users";
-    protected static $db_table_fields = array('username', 'password', 'first_name', 'last_name', 'user_image');
+    protected static $db_table_fields = array('username', 'password', 'first_name', 'last_name', 'user_image', 'admin');
 
     public $id;
     public $username;
@@ -18,6 +18,7 @@ class User extends Dbobject
     public $first_name;
     public $last_name;
     public $user_image;
+    public $admin;
     public $upload_directory = 'img'.DS.'users';
     public $image_placeholder = 'http://place-hold.it/400x400&text=image';
 
@@ -116,6 +117,7 @@ class User extends Dbobject
             }
         }
     }
+
 
 
 } 

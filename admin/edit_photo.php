@@ -17,9 +17,9 @@ if(empty($_GET['id'])){
             $photo->caption = $_POST['caption'];
             $photo->alternate_text = $_POST['alternate_text'];
             $photo->description = $_POST['description'];
-            if($photo->created_at = "0000-00-00 00:00:00"){
-                $photo->created_at = date("Y-m-d H:i:s");
-            }
+//            if($photo->created_at = "0000-00-00 00:00:00"){
+//                $photo->created_at = date("Y-m-d H:i:s");
+//            }
             $photo->updated_at = date("Y-m-d H:i:s");
             $photo->update();
             redirect('photos.php');

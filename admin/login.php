@@ -10,8 +10,15 @@ require_once("includes/header.php");
 
 /** controle of er reeds is ingelogd */
 if($session->is_signed_in()){
-    redirect("index.php");
+//    redirect("index.php");
+    if($session->isAdmin2($session->user_id)){
+        redirect("index.php");
+    }else{
+        redirect("../index.php");
+    }
 }
+
+
 
 /** isset -> kijkt of er iets aanwezig is , dus geen NULL */
 if(isset($_POST['submit'])){
@@ -22,7 +29,12 @@ if(isset($_POST['submit'])){
     $user_found = User::verify_user($username, $password);
     if($user_found){
         $session->login($user_found);
-        redirect("index.php");
+//        redirect("index.php");
+        if($session->isAdmin2($user_found->id)){
+            redirect("index.php");
+        }else{
+            redirect("../index.php");
+        }
     }else{
         $the_message = "PASSWORD OR USERNAME NOT CORRECT";
     }
@@ -36,9 +48,7 @@ if(isset($_POST['submit'])){
     <div class="row">
         <div class="col-md-6 offset-md-3 my-5">
             <h3 class="bg-warning text-white text-center">
-                <?php echo
-
-                $the_message; ?></h3>
+                <?php echo $the_message; ?></h3>
             <form action="" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>

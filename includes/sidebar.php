@@ -12,6 +12,8 @@
     $top_photos = Photo::find_this_query($sql);
 ?>
 <h1 class="my-5">Sidebar menu</h1>
+
+<a href="admin/login.php" class="btn btn-primary my-3">Login</a>
 <h2>Last 5 posts</h2>
 <ul>
     <?php foreach ($top_photos as $top_photo) : ?>

@@ -34,9 +34,9 @@ $photos = Photo::find_all();
                         foreach ($photos as $photo): ?>
                         <tr>
                             <td><img src="<?php echo $photo->picture_path(); ?>" alt="" width="62" height="62" class="img-fluid mb-1">
-                                <div>
+                                <div class="d-flex flex-row">
                                     <a class="btn btn-danger rounded-0" href="delete_photo.php?id=<?php echo $photo->id; ?>">Delete</a>
-                                    <a class="btn btn-warning rounded-0" href="edit_photo.php?id=<?php echo $photo->id; ?>">Edit</a>
+                                    <a class="btn btn-warning rounded-0 mx-3" href="edit_photo.php?id=<?php echo $photo->id; ?>">Edit</a>
                                     <a class="btn btn-success rounded-0" href="../photo.php?id=<?php echo $photo->id; ?>">view</a>
                                 </div>
                             </td>

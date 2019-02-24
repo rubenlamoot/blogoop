@@ -72,6 +72,14 @@ class Session
             return $_SESSION['count'] = 1;
         }
     }
+    public function isAdmin2($id){
+        $result = User::find_by_id($id);
+        if ((int)$result->admin === 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 $session = new Session();

@@ -38,18 +38,9 @@
     <!-- Nav Item - Pages Collapse Menu -->
     <!-- users gedeelte -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link" href="./users.php">
             <i class="fas fa-user"></i>
-            <span>Users</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-
-                <a class="collapse-item" href="./users.php">Create User</a>
-                <a class="collapse-item" href="./users.php">Edit User</a>
-                <a class="collapse-item" href="./users.php">Delete User</a>
-            </div>
-        </div>
+            <span>Users</span></a>
     </li>
 
    <!-- upload gedeelte -->
