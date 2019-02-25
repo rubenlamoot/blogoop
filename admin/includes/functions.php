@@ -34,6 +34,13 @@ function isAdmin(){
         return false;
     }
 }
-
+function isAdmin2($id){
+    $result = User::find_by_id($id);
+    if ((int)$result->admin === 1){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 ?>

@@ -11,7 +11,7 @@ require_once("includes/header.php");
 /** controle of er reeds is ingelogd */
 if($session->is_signed_in()){
 //    redirect("index.php");
-    if($session->isAdmin2($session->user_id)){
+    if(isAdmin2($session->user_id)){
         redirect("index.php");
     }else{
         redirect("../index.php");
@@ -30,7 +30,7 @@ if(isset($_POST['submit'])){
     if($user_found){
         $session->login($user_found);
 //        redirect("index.php");
-        if($session->isAdmin2($user_found->id)){
+        if(isAdmin2($user_found->id)){
             redirect("index.php");
         }else{
             redirect("../index.php");

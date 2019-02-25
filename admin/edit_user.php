@@ -2,7 +2,7 @@
 
 include ("includes/header.php"); ?>
 <?php
-if(!$session->is_signed_in()){
+if(!isAdmin2($session->user_id)){
     redirect("login.php");
 }
 
@@ -20,6 +20,11 @@ if(isset($_POST['update'])){
         $user->password = $_POST['password'];
         $user->first_name = $_POST['first_name'];
         $user->last_name = $_POST['last_name'];
+        if(isset($_POST['adminCheck'])){
+            $user->admin = 1;
+        }else{
+            $user->admin = 0;
+        }
 
         if (empty($_FILES['user_image'])){
             $user->save();
@@ -70,8 +75,18 @@ if(isset($_POST['update'])){
                             <input type="text" class="form-control" name="last_name"
                                    value="<?php echo $user->last_name; ?>">
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="adminCheck" name="adminCheck" <?php if ((int)$user->admin === 1){
+                                echo "checked";
+                            }else{
 
-                        <div class="form-group">
+                            } ?>>
+                            <label class="form-check-label" for="adminCheck">
+                                is een administrator
+                            </label>
+                        </div>
+
+                        <div class="form-group my-3">
                             <input type="submit" class="btn btn-primary" value="Update user" name="update">
                         </div>
                     </div>
