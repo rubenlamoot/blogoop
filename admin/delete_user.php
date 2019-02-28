@@ -3,8 +3,12 @@
 
 include ("includes/header.php"); ?>
 <?php
-if(!isAdmin2($session->user_id)){
-    redirect("login.php");
+if(!$session->is_signed_in()){
+    redirect("../index.php");
+}else{
+    if(!isAdmin2($session->user_id)){
+        redirect("login.php");
+    }
 }
 
 if(empty($_GET['id'])){

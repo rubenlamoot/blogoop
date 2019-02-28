@@ -35,14 +35,15 @@ $photos = Photo::find_this_query($sql);
 
 <div class="col-md-8">
     <h1 class="text-center my-5">MIJN BLOG PAGINA</h1>
-   <form>
+   <form name="myForm">
        <div class="form-group">
            <label for="pageSelect">Show photos per page:</label>
            <select class="form-control" style="width: 15%" id="pageSelect" name="pageSelect" onchange="myPaginate()">
-               <option value="5">5</option>
-               <option value="10">10</option>
-               <option value="15">15</option>
-               <option value="20">20</option>
+               <option value="0" selected>choose option</option>
+               <option value="2">2</option>
+               <option value="4">4</option>
+               <option value="6">6</option>
+               <option value="8">8</option>
            </select>
        </div>
    </form>
@@ -100,9 +101,9 @@ $photos = Photo::find_this_query($sql);
 
 <script>
     function myPaginate(){
-        var $itemsPerPage = document.getElementById("pageSelect").value;
-
-        return $itemsPerPage;
+        // var $itemPage = document.getElementById('pageSelect').value;
+        // document.getElementById("pageSelect").value = $itemPage;
+        document.myForm.submit();
     }
 </script>
 

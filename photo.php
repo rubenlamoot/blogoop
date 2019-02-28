@@ -42,6 +42,21 @@ if(isset($_POST['submit'])){
     $author = "";
     $body = "";
 }
+
+$sub_comment = new Subcomment();
+if(isset($_POST['update'])){
+    if($sub_comment){
+        $sub_comment->comment_id = $comment->id;
+        $sub_comment->user_id = $active_user->id;
+        $sub_comment->body = trim($_POST['commentBody']);
+        $sub_comment->date_time = date("Y-m-d H:i:s");
+
+        $sub_comment->create();
+        redirect("photo.php?id={$photo->id}");
+    }else{
+        $message = "There were some problems saving";
+    }
+}
 ?>
 <div class="col-md-4">
     <?php include("includes/sidebar.php"); ?>
@@ -75,17 +90,6 @@ if(isset($_POST['submit'])){
                     <div class="form-group">
                         <label for="author">Author:</label>
                         <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
-<!--                        <select name="author" id="author" class="form-control">-->
-<!--                            --><?php //foreach ($users as $user) : ?>
-<!--                                <option value="--><?php //echo $user->id; ?><!--">--><?php //echo $user->last_name . " " .$user->first_name; ?><!--</option>-->
-<!---->
-<!--                            --><?php
-//
-//                            endforeach;
-//
-//                            ?>
-<!--                        </select>-->
-
                     </div>
                     <div class="form-group">
                 <textarea name="body" rows="3" class="form-control">
@@ -102,19 +106,67 @@ if(isset($_POST['submit'])){
     <hr>
     <?php foreach ($comments as $comment) : ?>
     <div class="media">
-        <a href="" class="float-left mr-3">
+        <div class="float-left mr-3">
             <?php $user = User::find_by_id($comment->user_id);?>
             <img src="admin/<?php echo $user->image_path_and_placeholder(); ?>" alt="" height="64" width="64" class="media-body">
-        </a>
+        </div>
         <div class="media-body">
-            <h4 class="media-heading"><?php echo $comment->author; ?>
-                <small><?php echo $comment->date_time; ?></small>
+            <div class="d-flex flex-row">
+                <h4 class="media-heading"><?php echo $comment->author; ?>
+                    <small><?php echo $comment->date_time; ?></small>
+                </h4>
 
-            </h4>
+                <?php
+                     if(isAdmin()){ ?>
+<!--                    <button class="btn btn-danger ml-3 mb-3">comment</button>-->
+                         <!-- Button trigger modal -->
+                         <button type="button" class="btn btn-primary ml-3 mb-3" data-toggle="modal" data-target="#commentModal">
+                             Comment
+                         </button>
+
+                         <!-- Modal -->
+                         <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                             <div class="modal-dialog modal-dialog-centered" role="document">
+                                 <div class="modal-content">
+                                     <form method="post">
+
+                                         <div class="modal-header">
+                                             <h5 class="modal-title" id="exampleModalCenterTitle">Leave a comment</h5>
+                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                 <span aria-hidden="true">&times;</span>
+                                             </button>
+                                         </div>
+                                         <div class="modal-body">
+                                             <p><?php echo $comment->id; ?></p>
+                                                 <div class="form-group">
+                                                     <label for="author">Author:</label>
+                                                     <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
+                                                 </div>
+                                                 <div class="form-group">
+                                                     <label for="commentBody">Comment:</label>
+                                                     <textarea class="form-control" id="commentBody" name="commentBody" rows="3">
+
+                                                     </textarea>
+                                                 </div>
+                                                 <div class="modal-footer">
+                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                     <button type="submit" name="update" class="btn btn-primary">Submit</button>
+                                                 </div>
+
+                                         </div>
+                                     </form>
+
+                                 </div>
+                             </div>
+                         </div>
+                    <?php } ?>
+            </div>
+
             <?php echo $comment->body; ?>
         </div>
     </div>
     <?php endforeach; ?>
+<!--    <h3 class="my-3">--><?php //echo $message ?><!--</h3>-->
 </div>
 
 

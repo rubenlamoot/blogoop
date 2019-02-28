@@ -9,8 +9,12 @@ include("includes/header.php");
 include("includes/sidebar.php");
 include("includes/content_top.php");
 
-if(!isAdmin2($session->user_id)){
-    redirect("login.php");
+if(!$session->is_signed_in()){
+    redirect("../index.php");
+}else{
+    if(!isAdmin2($session->user_id)){
+        redirect("login.php");
+    }
 }
 $message = "";
 if(isset($_POST['submit'])) {
