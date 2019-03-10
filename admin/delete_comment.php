@@ -15,9 +15,9 @@ if(empty($_GET['id'])){
     redirect('comments.php');
 }
 
-$comment = Comment::find_by_id($_GET['id']);
-if($comment){
-    $comment->delete();
+$subcomment = Subcomment::find_by_id($_GET['id']);
+if($subcomment){
+    $subcomment->delete();
     redirect("comments.php");
 }else{
     redirect("comments.php");

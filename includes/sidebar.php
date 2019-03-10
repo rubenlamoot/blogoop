@@ -20,3 +20,5 @@
     <li><a href="photo.php?id=<?= $top_photo->id; ?>"><?= $top_photo->title; ?></a></li>
     <?php endforeach; ?>
 </ul>
+
+<a href="index.php" class="btn btn-primary my-3">Home</a>

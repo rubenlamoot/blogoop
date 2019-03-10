@@ -16,4 +16,22 @@ class Subcomment extends Dbobject
     public $user_id;
     public $body;
     public $date_time;
+
+    public static function find_the_subcomments($commentId){
+        global $database;
+        $sql = "SELECT * FROM " .self::$db_table;
+        $sql .= " WHERE comment_id = " .$database->escape_string($commentId);
+        $sql .= " ORDER BY id ASC";
+
+        return self::find_this_query($sql);
+    }
+
+    public static function delete_the_subcomments($commentId){
+        global $database;
+        $sql = "DELETE FROM " .self::$db_table;
+        $sql .= " WHERE comment_id = " .$database->escape_string($commentId);
+
+        $database->query($sql);
+        return (mysqli_affected_rows($database->connection) >= 1) ? true : false;
+    }
 }

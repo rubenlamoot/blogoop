@@ -46,7 +46,7 @@ if(isset($_POST['submit'])){
 $sub_comment = new Subcomment();
 if(isset($_POST['update'])){
     if($sub_comment){
-        $sub_comment->comment_id = $comment->id;
+        $sub_comment->comment_id = $_POST['commentId'];
         $sub_comment->user_id = $active_user->id;
         $sub_comment->body = trim($_POST['commentBody']);
         $sub_comment->date_time = date("Y-m-d H:i:s");
@@ -92,7 +92,7 @@ if(isset($_POST['update'])){
                         <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
                     </div>
                     <div class="form-group">
-                <textarea name="body" rows="3" class="form-control">
+                <textarea name="body" rows="3" class="form-control" required>
 
                 </textarea>
                     </div>
@@ -118,17 +118,16 @@ if(isset($_POST['update'])){
 
                 <?php
                      if(isAdmin()){ ?>
-<!--                    <button class="btn btn-danger ml-3 mb-3">comment</button>-->
-                         <!-- Button trigger modal -->
-                         <button type="button" class="btn btn-primary ml-3 mb-3" data-toggle="modal" data-target="#commentModal">
+
+                         <button type="button" class="btn btn-primary ml-3 mb-3" data-toggle="modal" data-target="#commentModal<?php echo $comment->id; ?>">
                              Comment
                          </button>
 
                          <!-- Modal -->
-                         <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                         <div class="modal fade" id="commentModal<?php echo $comment->id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                              <div class="modal-dialog modal-dialog-centered" role="document">
                                  <div class="modal-content">
-                                     <form method="post">
+                                     <form method="post" role="form">
 
                                          <div class="modal-header">
                                              <h5 class="modal-title" id="exampleModalCenterTitle">Leave a comment</h5>
@@ -137,22 +136,21 @@ if(isset($_POST['update'])){
                                              </button>
                                          </div>
                                          <div class="modal-body">
-                                             <p><?php echo $comment->id; ?></p>
+                                                 <input type="hidden" name="commentId" id="commentId" value="<?php echo $comment->id; ?>">
                                                  <div class="form-group">
-                                                     <label for="author">Author:</label>
-                                                     <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
+                                                         <label for="author">Author:</label>
+                                                         <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
                                                  </div>
                                                  <div class="form-group">
-                                                     <label for="commentBody">Comment:</label>
-                                                     <textarea class="form-control" id="commentBody" name="commentBody" rows="3">
+                                                         <label for="commentBody">Comment:</label>
+                                                         <textarea class="form-control" id="commentBody" name="commentBody" rows="3" required>
 
-                                                     </textarea>
+                                                         </textarea>
                                                  </div>
                                                  <div class="modal-footer">
-                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                     <button type="submit" name="update" class="btn btn-primary">Submit</button>
+                                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                       <button type="submit" name="update" class="btn btn-primary">Submit</button>
                                                  </div>
-
                                          </div>
                                      </form>
 
@@ -163,11 +161,30 @@ if(isset($_POST['update'])){
             </div>
 
             <?php echo $comment->body; ?>
+
+                    <?php
+                    $subcomments = Subcomment::find_the_subcomments($comment->id);
+                        foreach ($subcomments as $subcomment): ?>
+                            <div class="media">
+                                <div class="float-left mr-3">
+                                    <?php $user2 = User::find_by_id($subcomment->user_id);?>
+                                    <img src="admin/<?php echo $user2->image_path_and_placeholder(); ?>" alt="" height="64" width="64" class="media-body">
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex flex-row">
+                                        <h4 class="media-heading"><?php echo $user2->first_name ." ". $user2->last_name; ?>
+                                            <small><?php echo $subcomment->date_time; ?></small>
+                                        </h4>
+                                    </div>
+                                    <?php echo $subcomment->body; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+
         </div>
-    </div>
-    <?php endforeach; ?>
-<!--    <h3 class="my-3">--><?php //echo $message ?><!--</h3>-->
+
+
 </div>
-
-
+<?php endforeach; ?>
+    <!--    <h3 class="my-3">--><?php //echo $message ?><!--</h3>-->
 <?php include("includes/footer.php"); ?>

@@ -26,7 +26,6 @@ $sql .= "OFFSET {$paginate->offset()}";
 
 $photos = Photo::find_this_query($sql);
 
-//    $photos = Photo::find_all();
 ?>
 
 <div class="col-md-4">
@@ -52,7 +51,7 @@ $photos = Photo::find_this_query($sql);
         foreach ($photos as $photo) :
         ?>
         <div class="col-md-4">
-            <div class="card" style="width: 100%;">
+            <div class="card h-100" style="width: 100%;">
                 <img src="admin/<?php echo $photo->picture_path(); ?>" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title"><?php echo $photo->title; ?></h5>
@@ -101,8 +100,6 @@ $photos = Photo::find_this_query($sql);
 
 <script>
     function myPaginate(){
-        // var $itemPage = document.getElementById('pageSelect').value;
-        // document.getElementById("pageSelect").value = $itemPage;
         document.myForm.submit();
     }
 </script>
