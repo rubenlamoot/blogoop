@@ -13,7 +13,7 @@ require_once ("admin/includes/init.php");
 <?php
 /** variabelen voor het vullen van de parameters constructor van de class Paginate */
 $page = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
-//$items_per_page = 4;
+
 $items_per_page = !empty($_GET['pageSelect']) ? (int)$_GET['pageSelect'] : 5;
 $items_total_count = Photo::count_all();
 
@@ -34,10 +34,10 @@ $photos = Photo::find_this_query($sql);
 
 <div class="col-md-8">
     <h1 class="text-center my-5">MIJN BLOG PAGINA</h1>
-   <form name="myForm">
+   <form name="myForm" action="index.php">
        <div class="form-group">
            <label for="pageSelect">Show photos per page:</label>
-           <select class="form-control" style="width: 15%" id="pageSelect" name="pageSelect" onchange="myPaginate()">
+           <select class="form-control" style="width: 15%" id="pageSelect" name="pageSelect" onchange="document.myForm.submit();">
                <option value="0" selected>choose option</option>
                <option value="2">2</option>
                <option value="4">4</option>
@@ -99,9 +99,12 @@ $photos = Photo::find_this_query($sql);
 </div>
 
 <script>
-    function myPaginate(){
-        document.myForm.submit();
-    }
+    // function myPaginate(event){
+    //     // document.myForm.submit();
+    //     var selectElement = event.target;
+    //     var value = selectElement.value;
+    //     document.myForm.submit(value);
+    // }
 </script>
 
 

@@ -154,6 +154,8 @@ class Dbobject
 
         return array_shift($row);
     }
+
+
 }
 
 ?>

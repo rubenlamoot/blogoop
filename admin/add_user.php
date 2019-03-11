@@ -11,6 +11,7 @@ if(!$session->is_signed_in()){
 }
 
 $user = new User();
+$roles = Role::find_all();
 
 if(isset($_POST['submit'])){
     if($user){
@@ -25,6 +26,7 @@ if(isset($_POST['submit'])){
         }
         $user->set_file($_FILES['user_image']);
         $user->save_user_and_image();
+        $user->save_role_and_id($user->id ,$_POST['selectRole']);
         redirect("users.php");
     }
 }
@@ -62,6 +64,16 @@ if(isset($_POST['submit'])){
                         <div class="form-group">
                             <label for="last_name">Lastname</label>
                             <input type="text" class="form-control" name="last_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="selectRole">Role : </label>
+                            <select id="selectRole" name="selectRole">
+                                <?php foreach ($roles as $role) : ?>
+                                <option value="<?php echo $role->id; ?>">
+                                    <?php echo $role->role; ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="adminCheck" name="adminCheck">

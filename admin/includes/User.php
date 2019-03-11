@@ -118,6 +118,18 @@ class User extends Dbobject
         }
     }
 
+    public function save_role_and_id($user_id, $role_id){
+        global $database;
+        $sql = "INSERT INTO users_roles (user_id, role_id) VALUES ($user_id, $role_id)";
+        if($database->query($sql)){
+            return true;
+
+        }else{
+            return false;
+        }
+    }
+
+
 
 
 } 

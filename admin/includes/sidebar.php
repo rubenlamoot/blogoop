@@ -43,6 +43,12 @@
             <span>Users</span></a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="./roles.php">
+            <i class="fas fa-robot"></i>
+            <span>Roles</span></a>
+    </li>
+
    <!-- upload gedeelte -->
 
     <li class="nav-item">
@@ -61,6 +67,12 @@
         <a class="nav-link" href="./comments.php">
             <i class="fas fa-comment"></i>
             <span>Comments</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="./admin_products.php">
+            <i class="fas fa-box-open"></i>
+            <span>Products</span></a>
     </li>
 
     <!-- Divider -->

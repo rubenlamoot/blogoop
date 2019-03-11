@@ -16,7 +16,10 @@ if(empty($_GET['id'])) {
 }
 
 $user = User::find_by_id($_GET['id']);
+$roles = Role::find_all();
 
+$user_roles = Role::find_the_roles($_GET['id']);
+$user_role_array = [];
 if(isset($_POST['update'])){
     if($user){
 
@@ -79,6 +82,31 @@ if(isset($_POST['update'])){
                             <input type="text" class="form-control" name="last_name"
                                    value="<?php echo $user->last_name; ?>">
                         </div>
+
+                        <div class="form-group">
+                            <label for="selectActiveRole">Current roles of user : </label>
+                            <select id="selectActiveRole" name="selectActiveRole" class="mr-3">
+                                <?php foreach ($user_roles as $user_role) : ?>
+                                    <option value="<?php echo $user_role->id;
+                                    array_push($user_role_array, $user_role->id); ?>">
+                                        <?php echo $user_role->role; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <label for="selectRole">Add role to user : </label>
+                            <select id="selectRole" name="selectRole">
+                                <?php
+                                foreach ($roles as $role) :
+                                        if(!in_array($role->id, $user_role_array)){ ?>
+                                         <option value="<?php echo $role->id; ?>">
+                                        <?php echo $role->role; ?>
+                                        </option>
+                                        <?php } ?>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="adminCheck" name="adminCheck" <?php if ((int)$user->admin === 1){
                                 echo "checked";
