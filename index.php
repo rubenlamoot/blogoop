@@ -69,23 +69,23 @@ $photos = Photo::find_this_query($sql);
                     if($paginate->page_total() > 1) {
                         if ($paginate->has_previous()) { ?>
                             <li class="page-item">
-                                <a class="page-link" href="index.php?page=<?php echo $paginate->previous(); ?>"
-                                   tabindex="-1" aria-disabled="true">Previous</a>
+                                <a class="page-link" href="index.php?page=<?php echo $paginate->previous() ."&pageSelect=". $items_per_page; ?>"
+                                tabindex="-1" aria-disabled="true">Previous</a>
                             </li>
                             <?php
                         }
 
                         for ($i = 1; $i <= $paginate->page_total(); $i++) {
                             if ($i == $paginate->current_page) {
-                                echo "<li class='page-item active' aria-current='page'><a class='page-link' href='index.php?page={$i}'>{$i}</a></li>";
+                                echo "<li class='page-item active' aria-current='page'><a class='page-link' href='index.php?page={$i}&pageSelect={$items_per_page}'>{$i}</a></li>";
                             } else {
-                                echo "<li class='page-item'><a class='page-link' href='index.php?page={$i}'>{$i}</a></li>";
+                                echo "<li class='page-item'><a class='page-link' href='index.php?page={$i}&pageSelect={$items_per_page}'>{$i}</a></li>";
                             }
                         }
                         if ($paginate->has_next()) {
                             ?>
                             <li class="page-item">
-                                <a class="page-link" href="index.php?page=<?php echo $paginate->next(); ?>">Next</a>
+                                <a class="page-link" href="index.php?page=<?php echo $paginate->next() ."&pageSelect=". $items_per_page; ?>">Next</a>
                             </li>
                             <?php
                         }

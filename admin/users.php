@@ -48,7 +48,7 @@ $users = User::find_all_users();
                         <td><?php
                                 $roles = Role::find_the_roles($user->id);
                                foreach ($roles as $role) :
-                                   echo $role->role;
+                                   echo $role->role .' / ';
                             endforeach;
                             ?>
                         </td>

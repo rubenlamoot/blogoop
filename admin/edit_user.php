@@ -20,6 +20,8 @@ $roles = Role::find_all();
 
 $user_roles = Role::find_the_roles($_GET['id']);
 $user_role_array = [];
+
+
 if(isset($_POST['update'])){
     if($user){
 
@@ -31,6 +33,9 @@ if(isset($_POST['update'])){
             $user->admin = 1;
         }else{
             $user->admin = 0;
+        }
+        if ($_POST['selectRole'] != 0){
+            $user->save_role_and_id($user->id ,$_POST['selectRole']);
         }
 
         if (empty($_FILES['user_image'])){
@@ -86,16 +91,17 @@ if(isset($_POST['update'])){
                         <div class="form-group">
                             <label for="selectActiveRole">Current roles of user : </label>
                             <select id="selectActiveRole" name="selectActiveRole" class="mr-3">
-                                <?php foreach ($user_roles as $user_role) : ?>
-                                    <option value="<?php echo $user_role->id;
-                                    array_push($user_role_array, $user_role->id); ?>">
+                                <?php foreach ($user_roles as $user_role) :
+                                    array_push($user_role_array, $user_role->id); ?>
+                                    <option value="<?php echo $user_role->id; ?>">
                                         <?php echo $user_role->role; ?>
                                     </option>
-                                <?php endforeach; ?>
+                                <?php  endforeach; ?>
                             </select>
 
                             <label for="selectRole">Add role to user : </label>
                             <select id="selectRole" name="selectRole">
+                                <option value="0">choose role</option>
                                 <?php
                                 foreach ($roles as $role) :
                                         if(!in_array($role->id, $user_role_array)){ ?>

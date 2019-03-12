@@ -46,7 +46,7 @@ if(isset($_POST['submit'])){
 $sub_comment = new Subcomment();
 if(isset($_POST['update'])){
     if($sub_comment){
-        $sub_comment->comment_id = $_POST['commentId'];
+        $sub_comment->comment_id = trim($_POST['commentId']);
         $sub_comment->user_id = $active_user->id;
         $sub_comment->body = trim($_POST['commentBody']);
         $sub_comment->date_time = date("Y-m-d H:i:s");
@@ -136,27 +136,29 @@ if(isset($_POST['update'])){
                                              </button>
                                          </div>
                                          <div class="modal-body">
-                                                 <input type="hidden" name="commentId" id="commentId" value="<?php echo $comment->id; ?>">
-                                                 <div class="form-group">
-                                                         <label for="author">Author:</label>
-                                                         <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
-                                                 </div>
-                                                 <div class="form-group">
-                                                         <label for="commentBody">Comment:</label>
-                                                         <textarea class="form-control" id="commentBody" name="commentBody" rows="3" required>
+                                             <input type="hidden" name="commentId" id="commentId" value="<?php echo $comment->id; ?>">
+
+                                             <div class="form-group">
+                                                 <label for="author">Author:</label>
+                                                 <p><?= $active_user->first_name ." ". $active_user->last_name; ?></p>
+                                             </div>
+                                             <div class="form-group">
+                                                 <label for="commentBody">Comment:</label>
+                                                 <textarea class="form-control" id="commentBody" name="commentBody" rows="3" required>
 
                                                          </textarea>
-                                                 </div>
-                                                 <div class="modal-footer">
-                                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                       <button type="submit" name="update" class="btn btn-primary">Submit</button>
-                                                 </div>
+                                             </div>
+                                             <div class="modal-footer">
+                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                 <button type="submit" name="update" class="btn btn-primary">Submit</button>
+                                             </div>
                                          </div>
                                      </form>
 
                                  </div>
                              </div>
                          </div>
+
                     <?php } ?>
             </div>
 
@@ -186,5 +188,6 @@ if(isset($_POST['update'])){
 
 </div>
 <?php endforeach; ?>
+
     <!--    <h3 class="my-3">--><?php //echo $message ?><!--</h3>-->
 <?php include("includes/footer.php"); ?>
