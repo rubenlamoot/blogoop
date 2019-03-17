@@ -3,8 +3,12 @@
 <?php include ("includes/content_top.php"); ?>
 
 <?php
-if(!isAdmin2($session->user_id)){
-    redirect("login.php");
+if(!$session->is_signed_in()){
+    redirect("../index.php");
+}else{
+    if(!isAdmin2($session->user_id)){
+        redirect("login.php");
+    }
 }
 $page = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
 $items_per_page = !empty($_GET['pageSelect']) ? (int)$_GET['pageSelect'] : 5;
@@ -30,9 +34,9 @@ $comments = Comment::find_this_query($sql);
                     <select class="form-control" style="width: 15%" id="pageSelect" name="pageSelect" onchange="myPaginate()">
                         <option value="0" selected>choose option</option>
                         <option value="2">2</option>
+                        <option value="3">3</option>
                         <option value="4">4</option>
-                        <option value="6">6</option>
-                        <option value="8">8</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
             </form>
